@@ -31,7 +31,7 @@
             <div class="col-md-4">
                 <div class="withdraw status text-center">
                     <h5>Withdraw</h5>
-                    <h1>$00</h1>
+                    <h1>$ <span id="currentWithdraw">00</span></h1>
                 </div>
             </div>
             <div class="col-md-4">
@@ -70,8 +70,7 @@
         })
         const depositButton = document.getElementById("depositButton");
         depositButton.addEventListener("click", function(){
-            const depositAmount = document.getElementById("depositAmount").value;
-            const depositNumber = parseFloat(depositAmount);
+            const depositNumber = capture("depositAmount");
            
             updateAmounts("netBalance", depositNumber);
             updateAmounts("currentAmount", depositNumber);
@@ -79,6 +78,23 @@
             document.getElementById("depositAmount").value = "";
             
         })
+
+        const withdrawBtn = document.getElementById("withdrawButton");
+        withdrawBtn.addEventListener("click", function(){
+            const withdraw = capture("withdrawAmount");
+
+            updateAmounts("currentWithdraw", withdraw);
+            updateAmounts("netBalance", -1 * withdraw);
+
+            document.getElementById("withdrawAmount").value = "";
+            
+        })
+        function capture (idName){
+            const withdrawNumber = document.getElementById(idName).value;
+            const withdrawAmount = parseFloat(withdrawNumber);
+            return withdrawAmount;
+        }
+
         function updateAmounts (idName, depositNumber){
             const balance = document.getElementById(idName).innerText;
             const netBalance = parseFloat(balance);
